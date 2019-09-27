@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./calculator.css";
 
-
 const socket = io("http://localhost:8000");
 
 export function Calculator() {
   const [calculation, setCalculation] = useState("");
   const [calcList, setCalcList] = useState([]);
-  const [expression, setExpression] = useState("");  
+  const [expression, setExpression] = useState("");
 
   useEffect(() => {
     console.log("emitting event");
@@ -16,11 +15,9 @@ export function Calculator() {
       if (calcList.length === 10) calcList.shift();
       setCalcList([...calcList, data.calculation]);
     });
-    
-  }, [calcList]); 
+  }, [calcList]);
 
-  const emitExpression = exp => { 
-    
+  const emitExpression = exp => {
     socket.emit("subscribeToCalculation", {
       calculation: exp
     });
@@ -50,8 +47,6 @@ export function Calculator() {
   };
 
   const calculate = () => {
-    
-
     try {
       const result = eval(expression) | "";
       setExpression(result.toString());
@@ -69,7 +64,7 @@ export function Calculator() {
           <table className="table-style">
             <tbody>
               <tr>
-                <td colSpan={4} className="calc-header">
+                <td colSpan={4} className="calc-header" id="calc-header">
                   {expression}
                 </td>
               </tr>
@@ -86,6 +81,7 @@ export function Calculator() {
                 <td
                   className="button button-operator"
                   onClick={() => handleCalcClicked("/")}
+                  id="buttonDivide"
                 >
                   /
                 </td>
@@ -103,6 +99,7 @@ export function Calculator() {
                 <td
                   className="button button-operator"
                   onClick={() => handleCalcClicked("*")}
+                  id="buttonMul"
                 >
                   *
                 </td>
@@ -111,15 +108,24 @@ export function Calculator() {
                 <td className="button" onClick={() => handleCalcClicked(1)}>
                   1
                 </td>
-                <td className="button" onClick={() => handleCalcClicked(2)}>
+                <td
+                  className="button"
+                  onClick={() => handleCalcClicked(2)}
+                  id="button2"
+                >
                   2
                 </td>
-                <td className="button" onClick={() => handleCalcClicked(3)}>
+                <td
+                  className="button"
+                  onClick={() => handleCalcClicked(3)}
+                  id="button3"
+                >
                   3
                 </td>
                 <td
                   className="button button-operator"
                   onClick={() => handleCalcClicked("+")}
+                  id="buttonPlus"
                 >
                   +
                 </td>
@@ -140,6 +146,7 @@ export function Calculator() {
                 <td
                   className="button button-operator"
                   onClick={() => handleCalcClicked("-")}
+                  id="buttonMinus"
                 >
                   -
                 </td>
@@ -150,12 +157,14 @@ export function Calculator() {
                   style={{ width: "190px" }}
                   className="button button-cancel"
                   onClick={() => handleCalcClicked("d")}
+                  id="buttonDel"
                 >
                   Del
                 </td>
                 <td
                   className="button button-operator"
                   onClick={() => handleCalcClicked("=")}
+                  id="buttonEqual"
                 >
                   =
                 </td>
