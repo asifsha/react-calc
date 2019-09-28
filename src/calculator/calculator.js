@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./calculator.css";
 
-const socket = io("http://localhost:8000");
+const socket = io("https://r-calc.herokuapp.com:37364");
 
 export function Calculator() {
   const [calculation, setCalculation] = useState("");
@@ -18,6 +18,7 @@ export function Calculator() {
   }, [calcList]);
 
   const emitExpression = exp => {
+    console.log('emit');
     socket.emit("subscribeToCalculation", {
       calculation: exp
     });
