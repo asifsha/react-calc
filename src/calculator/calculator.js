@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./calculator.css";
 
-const socket = io("https://r-calc.herokuapp.com:37364");
+//const host = location.origin.replace('/^http/', 'ws');
+//https://enigmatic-dawn-95873.herokuapp.com
+const socket = io("https://r-calc-47178.herokuapp.com");
 
 export function Calculator() {
   const [calculation, setCalculation] = useState("");
