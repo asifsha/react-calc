@@ -2,29 +2,23 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./calculator.css";
 
-//const host = location.origin.replace('/^http/', 'ws');
-//https://enigmatic-dawn-95873.herokuapp.com
-const socket = io("https://r-calc-47178.herokuapp.com");
+const socket = io("https://r-calc-server.herokuapp.com");
 
-export function Calculator() {
-  const [calculation, setCalculation] = useState("");
+export function Calculator() {  
   const [calcList, setCalcList] = useState([]);
   const [expression, setExpression] = useState("");
 
-  useEffect(() => {
-    console.log("emitting event");
+  useEffect(() => {   
     socket.on("calculation", data => {
       if (calcList.length === 10) calcList.shift();
       setCalcList([...calcList, data.calculation]);
     });
   }, [calcList]);
 
-  const emitExpression = exp => {
-    console.log('emit');
+  const emitExpression = exp => {    
     socket.emit("subscribeToCalculation", {
       calculation: exp
-    });
-    setCalculation(exp);
+    });    
     if (calcList.length === 10) calcList.shift();
     setCalcList([...calcList, exp]);
   };
@@ -51,6 +45,7 @@ export function Calculator() {
 
   const calculate = () => {
     try {
+      // eslint-disable-next-line no-eval
       const result = eval(expression) | "";
       setExpression(result.toString());
       emitExpression(expression + " = " + result);
